@@ -1,15 +1,5 @@
-//#define T4_V13
-
 #include "config.h"
 #include "SPIFFS.h"
-//#include <Arduino.h>
-//#include "esp_task_wdt.h"
-
-//#include <lvgl.h>
-//#include <SPI.h>
-//#include <Wire.h>
-//#include <Ticker.h>
-//#include <SD.h>
 
 #include "hardware/hardware.h"
 #include "hardware/display.h"

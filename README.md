@@ -68,12 +68,13 @@ Libraries are downloaded automatically by PlatformIO when compiling for the firs
 - RTC and working clock
 - Settings menu
 - Trip and info screens
+- Power saving
+- Accelerometer wakeup and tap gestures
 - Gotway support
 - Inmotion support
 - Veteran support
 
 ## Building the project
-Requires PlatformIO and driver for the USB chip in the chosen platform. for more info see: 
-https://github.com/Pickelhaupt/EUC-Dash-ESP32/tree/master/src
+Requires PlatformIO and driver for the USB chip in the chosen platform. 
 ## Connecting to the wheel
-If the "connect to wheel" setting on the main setup screen is on it should connect automatically when it finds a compatible wheel when the screen is on, it will not connect when screen is off as the device is in sleep mode. However there is currently no function implemented to make it possible to choose what wheel it will connect to of there are more than one compatible wheel in range, it will simply connect to the first one it finds.
+it should connect automatically when it finds a compatible wheel. However there is currently no function implemented to make it possible to choose what wheel it will connect to of there are more than one compatible wheel in range, it will simply connect to the first one it finds.

@@ -25,8 +25,6 @@ static lv_style_t mainscreen_labelstyle;
 static lv_style_t mainscreen_linestyle;
 static lv_style_t mainscreen_barstyle;
 
-static lv_color_t watch_colour = lv_color_make(0xFF, 0x00, 0x00);    // (Red)
-
 void mainscreen_init_styles() {
     lv_style_copy(&mainscreen_style, gui_get_style());
 

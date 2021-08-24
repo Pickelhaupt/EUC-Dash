@@ -2,6 +2,7 @@
 
 **2021-08-24 Rewrite of EUC-Dash-ESP32 -- aim is to support multiple ESP32 platforms** 
 Open Smart Watch is currently being worked on. Support planned for:
+- Open Smart Watch
 - TTGO t-watch
 - TTGO T4
 

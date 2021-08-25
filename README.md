@@ -54,7 +54,6 @@ Only supports Kingsong wheels at the moment. it autodetects the following models
 Gotway support is being actively worked on.
 
 ## Screenshots
-Some new screenshots, colours are a bit off though
 <div> 
   <img src="https://github.com/Pickelhaupt/EUC-Dash/raw/master/Images/OSW-Dash-5.jpg" width="20%" align="left"/>
   <img src="https://github.com/Pickelhaupt/EUC-Dash/raw/master/Images/OSW-Dash-ks16x-2.jpg" width="20%" align="center"/>

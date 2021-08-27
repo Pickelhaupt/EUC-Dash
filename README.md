@@ -12,7 +12,7 @@ At the moment only the Dashboard and automatic BLE connection to KingSong wheels
 Reads BLE notifications from the electric unicycle and display data on the ESP32 display
 - Reads KS BLE notifications
 - Full dashboard
-- Non functioning Clock display
+- Clock display
 - Placeholder for settings display
 - rudimentary button support
 
@@ -72,8 +72,11 @@ Libraries are downloaded automatically by PlatformIO when compiling for the firs
 - First draft, most functions to be ported/rewritten
 
 ## Todo
-- RTC and working clock
+- battery percentage and voltagecalc
 - Settings menu
+  - Time setup
+  - BLE setup
+  - 
 - Trip and info screens
 - Power saving
 - Accelerometer wakeup and tap gestures

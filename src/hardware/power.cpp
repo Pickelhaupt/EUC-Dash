@@ -1,9 +1,7 @@
 #include "power.h"
 
 
-byte power_get_battpct(void){
-    return 1;
-}
+
 
 void power_init(void) {
 
@@ -41,7 +39,7 @@ bool power_charging(void){
 uint16_t power_batt_analog_read( void ){
     #ifdef NO_PMU
         analogReadResolution(12);
-        analogSetPinAttenuation(BATT_MON_PIN, ADC_0db);
+        analogSetPinAttenuation(BATT_MON_PIN, ADC_11db);
         //pinMode(BATT_MON_PIN, INPUT);
         uint16_t value = analogRead(BATT_MON_PIN);
         log_i("battery read = %d", value);
@@ -54,7 +52,15 @@ uint16_t power_batt_analog_read( void ){
 
 float power_get_battvolt(void) {
     uint16_t a_read = power_batt_analog_read();
-    float value = (4.2 * a_read) / 4096.0;
+    float value = (4.2 * a_read) / 115.0;
     log_i("battery voltage = %f", value);
+    return value;
+}
+
+byte power_get_battpct(void){
+    float a_read = power_batt_analog_read();
+    byte value = (a_read / 1.1);
+    if (value > 100) value = 100;
+    log_i("battery percent = %d", value);
     return value;
 }

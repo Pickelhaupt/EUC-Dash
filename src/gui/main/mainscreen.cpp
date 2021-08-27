@@ -126,14 +126,23 @@ void mainscreen_update_time(time_t ctime){
 }
 
 void mainscreen_update_batt(void){
-    float voltage = power_get_battvolt();
-    uint16_t analogue_value = power_batt_analog_read();
+    //float voltage = power_get_battvolt();
+    //uint16_t analogue_value = power_batt_analog_read();
+    byte battpct = power_get_battpct();
 
-    char pctst[2] = "%";
-    char anastr[4] = {0};
-    dtostrf(analogue_value, 3, 0, anastr);
-    lv_label_set_text(batt_label, anastr);
-    lv_obj_align( batt_label, NULL, LV_ALIGN_IN_BOTTOM_MID, 0, -5 );
+    char pctsign[2] = "%";
+    char pctstring[3] = {0};
+    dtostrf(battpct, 3, 0, pctstring);
+    //char anastr[4] = {0};
+    //char voltstring[4] = {0};
+    char battstring[6] = {0};
+
+    //dtostrf(analogue_value, 3, 0, anastr);
+    //dtostrf(voltage, 1, 2, voltstring);
+    //lv_label_set_text(batt_label, anastr);
+    snprintf(battstring, sizeof(battstring), "%s%s", pctstring, pctsign);
+    lv_label_set_text(batt_label, battstring);
+    lv_obj_realign(batt_label);
 }
 
 uint32_t mainscreen_get_tile_num(void) {

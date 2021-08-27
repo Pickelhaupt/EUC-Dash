@@ -86,10 +86,7 @@ bool display_init() {
 
     tickTicker = new Ticker();
     startLvglTick();
-    //display_set_brightness(0, 10);
-    
 
-    //display_set_brightness(220, 500);
     eventmgm_register_cb( EVENTMGM_STANDBY | EVENTMGM_WAKEUP | EVENTMGM_SILENCE_WAKEUP, display_eventmgm_event_cb, "display events" );
 
     init_success = true;
@@ -112,8 +109,6 @@ void display_sleep(){
 void display_wakeup(){
     disp_tft.writecommand(0x11);
 }
-
-
 
 bool display_eventmgm_event_cb( EventBits_t event, void *arg ) {
     //TTGOClass *ttgo = TTGOClass::getWatch();
@@ -142,7 +137,6 @@ bool display_eventmgm_event_cb( EventBits_t event, void *arg ) {
     }
     return( true );
 }
-
 
 void display_set_rotation(int rotation) {
     disp_tft.setRotation(rotation);

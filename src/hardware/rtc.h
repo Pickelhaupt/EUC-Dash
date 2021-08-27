@@ -1,5 +1,7 @@
 #ifndef _RTC_H
     #define _RTC_H
+    #include "RTClib.h"
+    
     /**
     * @brief set the rtc time
     * 
@@ -17,4 +19,13 @@
     * @return   time_t unixtime
     */
     time_t rtc_get_time();
+    /**
+    * @brief init the RTC
+    */
+    void rtc_init( void );
+
+    char* rtc_get_clockstring();
+
+    char* rtc_get_datestring();
+
 #endif

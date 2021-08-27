@@ -5,6 +5,8 @@
 #include "hardware/display.h"
 #include "hardware/i2c_bus.h"
 #include "hardware/button.h"
+#include "hardware/rtc.h"
+#include "hardware/power.h"
 #include "system/configuration.h"
 #include "system/eventmgm.h"
 #include "system/lvglctl.h"
@@ -39,11 +41,15 @@ void setup() {
     wheelctl_setup();
 
     display_init();
-    
 
+    #ifdef HAS_RTC
+        rtc_init();
+    #endif
+    
     #ifdef HAS_BUTTONS
         button_init();
     #endif
+
     lvglctl_init();
 
     blectl_scan_setup();

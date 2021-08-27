@@ -7,6 +7,8 @@
         #define HAS_BUTTONS
         #define HAS_SD
         #define HAS_AMBLS
+        #define HAS_DS1307
+        //#define HAS_DS3231
         
         //TFT_eSPI configuration
         #define ILI9341_DRIVER      
@@ -38,6 +40,10 @@
         #define SPEAKER_PWD 19
         #define SPEAKER_OUT 25
         #define ADC_IN      35
+
+        #ifdef HAS_MOTOR
+            #define MOTOR_PIN               4 //change to the pin controlling the motor
+        #endif
     #endif //T4_BOARD
 
     #ifdef OSW_BOARD
@@ -46,6 +52,8 @@
         #define HAS_BMA
         #define HAS_BMA400
         #define HAS_RTC
+        #define HAS_DS3231
+        #define NO_PMU
 
         //TFT_eSPI configuration
         
@@ -77,20 +85,49 @@
         #define BUTTON_3    10
         #define BUTTONS_MAP {BUTTON_1,BUTTON_2,BUTTON_3}
 
-        #define STAT_PWR 15
-        #define B_MON 25
+        #define EXT_PWR_PIN 15
+        #define BATT_MON_PIN 25
+
+        #ifdef HAS_MOTOR
+            #define MOTOR_PIN               4 //change to the pin controlling the motor
+        #endif
+
     #endif //OSW_BOARD
 
     #ifdef T_WATCH_2020V1
-    //incomplete, complete before using
-    #define HAS_PWM_BL
-    #define HAS_TOUCH
-    #define HAS_MOTOR
-    #define HAS_AXP202
-    #define HAS_BMA
-    #define HAS_BMA423
+        //incomplete, complete before using
+        #define HAS_PWM_BL
+        #define HAS_TOUCH
+        #define HAS_MOTOR
+        #define HAS_AXP202
+        #define HAS_BMA
+        #define HAS_BMA423
+        #define HAS_RTC
+        #define HAS_PFC8563
+        
+        #define ST7789_DRIVER
+        #define TFT_WIDTH           240
+        #define TFT_HEIGHT          240
 
-    #define BMA_INT_1 00
+        #define TFT_MISO            0
+        #define FT_MOSI             19
+        #define TFT_SCLK            18
+        #define FT_CS               5
+        #define FT_DC               27
+        #define TFT_RST             -1
+        #define TFT_BL              12
+
+        #define TOUCH_SDA           23
+        #define TOUCH_SCL           32
+        #define TOUCH_INT           38
+
+        #define RTC_INT             37
+        #define AXP202_INT          35
+        #define BMA423_INT1         39
+
+        #ifdef HAS_MOTOR
+            #define MOTOR_PIN       4
+        #endif
 
     #endif //T_WATCH_2020V1
 

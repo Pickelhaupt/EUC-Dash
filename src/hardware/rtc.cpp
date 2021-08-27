@@ -1,10 +1,16 @@
-#include <Wire.h>
-#include "RTClib.h"
+#include "hardware.h"
 #include "rtc.h"
-#include "fs.h"
-#include "spiffs.h"
+#include <Wire.h>
 
-RTC_DS1307 rtc;
+#ifdef HAS_DS1307
+    RTC_DS1307 rtc;
+#endif
+#ifdef HAS_DS3231
+    RTC_DS3231 rtc;
+#endif
+#ifdef HAS_PFC8563
+    RTC_PFC8563 rtc;
+#endif
 
 char clockstring[8];
 char datestring[16];
@@ -13,9 +19,12 @@ void rtc_init(){
     if (! rtc.begin()) {
         Serial.println("Couldn't find RTC");
     }
+    //rtc_set_time(2021, 8, 27, 10, 18, 0);
+    #ifdef HAS_DS1307
     if (! rtc.isrunning()) {
         Serial.println("RTC is NOT running!");
     }
+    #endif
 }
 
 void rtc_set_time(uint16_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, uint8_t second) {
@@ -27,6 +36,7 @@ time_t rtc_get_time(){
     time_t time = now.unixtime();
     return time;
 }
+
 
 //example function to get time in HH:MM format
 char* rtc_get_clockstring(){

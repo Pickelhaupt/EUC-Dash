@@ -72,14 +72,18 @@ Libraries are downloaded automatically by PlatformIO when compiling for the firs
 - First draft, most functions to be ported/rewritten
 
 ## Todo
-- battery percentage and voltagecalc
 - Settings menu
   - Time setup
   - BLE setup
-  - 
+  - Display setup (Backlight, timeout)
+  - Wheel lights setup
+  - Wheel scan and storage
+  - Wheel pedal tilt
+  - Wheel speed  warnings
 - Trip and info screens
 - Power saving
 - Accelerometer wakeup and tap gestures
+- button functions while riding (lights, horn)
 - Gotway support
 - Inmotion support
 - Veteran support

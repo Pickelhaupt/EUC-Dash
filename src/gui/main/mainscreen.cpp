@@ -187,6 +187,7 @@ void mainscreen_init(){
     log_i("setting up main screen");
     mainscreen_tile_reload();
     mainscreen_update_time(rtc_get_time());
+    mainscreen_update_batt();
     gui_add_tile_activate_cb(mainscreen_tile_num, mainscreen_activate_cb);
     gui_add_tile_hibernate_cb(mainscreen_tile_num, mainscreen_hibernate_cb);
     eventmgm_register_loop_cb(EVENTMGM_WAKEUP | EVENTMGM_SILENCE_WAKEUP | EVENTMGM_STANDBY, mainscreen_event_loop_cb, "mainscreen event loop");

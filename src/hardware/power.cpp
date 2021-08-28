@@ -68,20 +68,20 @@ uint8_t power_get_battpct(void){
     float knee1 = 3.9;
     float knee2 = 3.6;
     float knee3 = 3.5;
-
+    float min_volt = 3.4;
     float voltage = power_get_battvolt();
     if (voltage > max_volt) value = 100;
     else if (voltage >= knee1) {
         value = 100 - ((max_volt - voltage) * 100);
     }
     else if (voltage > knee2) {
-        value = 100 - ((max_volt - voltage) * 100) - ((knee1 - voltage) * 190);
+        value = 100 - ((max_volt - knee1) * 100) - ((knee1 - voltage) * 190);
     }
     else if (voltage > knee3) {
-        value = 100 - ((max_volt - voltage) * 100) - ((knee1 - voltage) * 190) - ((knee2 - voltage) * 130);
+        value = 100 - ((max_volt - knee1) * 100) - ((knee1 - knee2) * 190) - ((knee2 - voltage) * 130);
     }
-    else if (voltage > knee3) {
-        value = 100 - ((max_volt - voltage) * 100) - ((knee1 - voltage) * 190) - ((knee2 - voltage) * 130) - ((knee3 - voltage) * 40);
+    else if (voltage > min_volt) {
+        value = 100 - ((max_volt - knee1) * 100) - ((knee1 - knee2) * 190) - ((knee2 - knee3) * 130) - ((knee3 - voltage) * 40);
     }
     else value = 0;
     log_i("battery percent = %d", value);

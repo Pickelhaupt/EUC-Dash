@@ -6,7 +6,7 @@
         #include "axp20x.h"    
     #endif
 
-    byte power_get_battpct( void );
+    uint8_t power_get_battpct( void );
     
     float power_get_battvolt( void );
 

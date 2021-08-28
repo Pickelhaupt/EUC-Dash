@@ -51,16 +51,39 @@ uint16_t power_batt_analog_read( void ){
 }
 
 float power_get_battvolt(void) {
-    uint16_t a_read = power_batt_analog_read();
-    float value = (4.2 * a_read) / 115.0;
-    log_i("battery voltage = %f", value);
+    #ifdef NO_PMU
+        float a_read = power_batt_analog_read();
+        float value = 4.2 - (0.013*(119-a_read));
+        log_i("battery voltage = %f", value);
+    #endif
+    #ifdef HAS_AXP202
+        //add voltage read
+    #endif
     return value;
 }
 
-byte power_get_battpct(void){
-    float a_read = power_batt_analog_read();
-    byte value = (a_read / 1.1);
-    if (value > 100) value = 100;
+uint8_t power_get_battpct(void){
+    uint8_t value = 0;
+    float max_volt = 4.15; //above, set to 100%
+    float knee1 = 3.9;
+    float knee2 = 3.6;
+    float knee3 = 3.5;
+
+    float voltage = power_get_battvolt();
+    if (voltage > max_volt) value = 100;
+    else if (voltage >= knee1) {
+        value = 100 - ((max_volt - voltage) * 100);
+    }
+    else if (voltage > knee2) {
+        value = 100 - ((max_volt - voltage) * 100) - ((knee1 - voltage) * 190);
+    }
+    else if (voltage > knee3) {
+        value = 100 - ((max_volt - voltage) * 100) - ((knee1 - voltage) * 190) - ((knee2 - voltage) * 130);
+    }
+    else if (voltage > knee3) {
+        value = 100 - ((max_volt - voltage) * 100) - ((knee1 - voltage) * 190) - ((knee2 - voltage) * 130) - ((knee3 - voltage) * 40);
+    }
+    else value = 0;
     log_i("battery percent = %d", value);
     return value;
 }

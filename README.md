@@ -89,6 +89,6 @@ Libraries are downloaded automatically by PlatformIO when compiling for the firs
 - Veteran support
 
 ## Building the project
-Requires PlatformIO and driver for the USB chip in the chosen platform. 
+Requires PlatformIO and driver for the USB chip for the chosen platform. First build it will complain about lv_conf.h. Just copy the lv_conf.h in /include to .pio/libdeps/<env-name>/lvgl where env-name is the environment(s) specified as default_envs in platformio.ini (default is only OSW)
 ## Connecting to the wheel
 it should connect automatically when it finds a compatible wheel. However there is currently no function implemented to make it possible to choose what wheel it will connect to of there are more than one compatible wheel in range, it will simply connect to the first one it finds.

@@ -8,6 +8,7 @@
     #include <Wire.h>
     #include <Ticker.h>
     #include <Arduino.h>
+    #include "hardware/hardware.h"
 
     #define _FIRMWARE_  2021042301
 

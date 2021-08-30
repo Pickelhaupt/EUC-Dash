@@ -3,7 +3,7 @@
     //#include <lvgl.h>
   #include "hardware/hardware.h"
   #include "config/displayconfig.h"
-  #include <TFT_eSPI.h>
+
   
   #ifdef HAS_AMBLS //if the board has an ambient light sensor
     #define LIGHTSENSE_PIN      35  //

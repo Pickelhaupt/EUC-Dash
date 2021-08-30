@@ -3,6 +3,6 @@
 
 //#define PI 3.1415926
 
-    void accel_init(void);
+    //void accel_init(void);
 
 #endif

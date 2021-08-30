@@ -1,8 +1,8 @@
-#include <Wire.h>
-#include <Adafruit_Sensor.h>
-#include <Adafruit_BNO055.h>
-#include <utility/imumaths.h>
-#include <Arduino.h>
+//#include <Wire.h>
+//#include <Adafruit_Sensor.h>
+//#include <Adafruit_BNO055.h>
+//#include <utility/imumaths.h>
+//#include <Arduino.h>
 
 /* This driver uses the Adafruit unified sensor library (Adafruit_Sensor),
    which provides a common 'type' for sensor data and some helper functions.
@@ -29,20 +29,24 @@
 */
 
 /* Set the delay between fresh samples */
-uint16_t BNO055_SAMPLERATE_DELAY_MS = 100;
+
+//uint16_t BNO055_SAMPLERATE_DELAY_MS = 100;
 
 // Check I2C device address and correct line below (by default address is 0x29 or 0x28)
 //                                   id, address
+/*
 Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28);
 
 void accel_printevent(sensors_event_t* event);
 
 void accel_init(void)
 {
-  /* Initialise the sensor */
+  */
+  //nitialise the sensor
+  /*
   if (!bno.begin())
-  {
-    /* There was a problem detecting the BNO055 ... check your connections */
+  { 
+    // There was a problem detecting the BNO055 ... check your connections 
     Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
   }
   
@@ -151,3 +155,4 @@ void accel_printevent(sensors_event_t* event) {
   Serial.print(" |\tz= ");
   Serial.println(z);
 }
+*/

@@ -29,19 +29,19 @@
   #define DISPLAY_DEFAULT_TIMEOUT   15
 
   //LVGL defines
-  #ifdef T4_BOARD
+  #ifdef TTGO_T4
     #define DISPLAY_HORRES      320
     #define DISPLAY_VERTRES     240
     #define DISPLAY_BUFSIZE     (320*80)
     #define LVGL_DBL_BUFFER
   #endif
-  #ifdef OSW_BOARD
+  #ifdef OSW
     #define DISPLAY_HORRES      240
     #define DISPLAY_VERTRES     240
     #define DISPLAY_BUFSIZE     (240*80)
     //#define LVGL_DBL_BUFFER
   #endif
-  #ifdef T_WATCH_2020V2
+  #ifdef TWATCH_2020V2
     #define DISPLAY_HORRES      240
     #define DISPLAY_VERTRES     240
     #define DISPLAY_BUFSIZE     (240*80)

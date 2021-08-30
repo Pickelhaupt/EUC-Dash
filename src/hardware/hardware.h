@@ -3,7 +3,7 @@
     #include "config.h"
     #include <TFT_eSPI.h>
 
-    #ifdef T4_BOARD
+    #ifdef TTGO_T4
         #define HAS_PWM_BL
         #define HAS_BUTTONS
         #define HAS_SD
@@ -33,7 +33,7 @@
         #endif
     #endif //T4_BOARD
 
-    #ifdef OSW_BOARD
+    #ifdef OSW
         #define HAS_BUTTONS
         #define HAS_PWM_BL
         #define HAS_BMA
@@ -63,7 +63,7 @@
 
     #endif //OSW_BOARD
 
-    #ifdef T_WATCH_2020V1
+    #ifdef TWATCH_2020V1
         //incomplete, complete before using
         #define HAS_PWM_BL
         #define HAS_TOUCH

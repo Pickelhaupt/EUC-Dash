@@ -81,7 +81,6 @@ Libraries are downloaded automatically by PlatformIO when compiling for the firs
   - Wheel pedal tilt
   - Wheel speed  warnings
 - Trip and info screens
-- Power saving
 - Accelerometer wakeup and tap gestures
 - button functions while riding (lights, horn)
 - Gotway support

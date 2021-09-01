@@ -90,13 +90,14 @@ class MyClientCallback : public BLEClientCallbacks
         log_i("onConnect");
         blectl_set_event(BLECTL_CLI_CONNECTED);
         blectl_clear_event(BLECTL_CLI_DISCONNECTED);
+        delay(100);
     }
     void onDisconnect(BLEClient *pclient)
     {
+        delay(200);
         cli_ondisconnect = true;
         blectl_set_event(BLECTL_CLI_DISCONNECTED);
         blectl_clear_event(BLECTL_CLI_CONNECTED);
-        wheelctl_disconnect_actions();
         log_i("onDisconnect -- cliconnected is false");
         return;
     }
@@ -629,11 +630,7 @@ bool connectToServer()
     // Connect to the remote BLE Server.
     pClient->connect(myDevice); // if you pass BLEAdvertisedDevice instead of address, it will be recognized type of peer device address (public or private)
     log_i(" - Connected to server");
-    delay(50);
-    if (cli_ondisconnect){
-        log_w("connection lost unexpectedly");
-        return false;
-    }
+    delay(100);
 
     // Obtain a reference to the service we are after in the remote BLE server.
     if (myWheeltype == WHEELTYPE_NUM) {
@@ -685,11 +682,13 @@ bool connectToServer()
         log_e("Failed to find our service UUID: ", KS_SERVICE_UUID_2.toString().c_str());
         pClient->disconnect();
         blectl_clear_event(BLECTL_CLI_CONNECTED);
+        delay(200);
         return false;
     }
 
     if (cli_ondisconnect){
         log_w("connection lost unexpectedly - 2");
+        delay(200);
         return false;
     }
 
@@ -737,6 +736,7 @@ bool connectToServer()
         log_e("Failed to find any suitable characteristic UUID");
         pClient->disconnect();
         blectl_clear_event(BLECTL_CLI_CONNECTED);
+        delay(200);
         return false;
     }
     // Read the value of the characteristic.
@@ -777,11 +777,6 @@ bool connectToServer()
         }
     }
     blectl_set_event(BLECTL_CLI_CONNECTED);
-    return blectl_get_event(BLECTL_CLI_CONNECTED);
-}
-
-bool blectl_cli_getconnected( void )
-{ 
     return blectl_get_event(BLECTL_CLI_CONNECTED);
 }
 

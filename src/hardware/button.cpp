@@ -11,7 +11,7 @@ static EasyButton up_button(BUTTON_3);
 static EasyButton down_button(BUTTON_2);
 //static int previousCount = 0;
 //static int set_count = 0;
-byte wakeup_press = 0;
+bool wakeup_press = false;
 
 volatile bool DRAM_ATTR button_irq_flag = false;
 portMUX_TYPE DRAM_ATTR BTN_IRQ_Mux = portMUX_INITIALIZER_UNLOCKED;
@@ -103,15 +103,8 @@ bool button_encoder_read(lv_indev_drv_t *drv, lv_indev_data_t * data){
 	static bool down_pressed = false;
 	static int press_time = 0;
 
-	if(wakeup_press != 0) {
-		wakeup_press--;
-		if (wakeup_press < 0) wakeup_press = 0;
-		log_i("button press deferred due to wakeup request");
-		return 0;
-	}
-
 	if(encoder_button.read()){
-		if (!encoder_pressed) {
+		if (!encoder_pressed && !wakeup_press) {
 			data->state = LV_INDEV_STATE_PR;
 			data->key = LV_KEY_ENTER;
 			data->btn_id = LV_KEY_ENTER;
@@ -125,6 +118,7 @@ bool button_encoder_read(lv_indev_drv_t *drv, lv_indev_data_t * data){
 			}
 			data->state = LV_INDEV_STATE_REL; 
 			encoder_pressed = false;
+			if(wakeup_press) wakeup_press = false;
 			Serial.println("enter button released");
 		}
 	}	
@@ -132,11 +126,12 @@ bool button_encoder_read(lv_indev_drv_t *drv, lv_indev_data_t * data){
 		if (!up_pressed) {		
 			Serial.println("up button released");
 			data->state = LV_INDEV_STATE_REL;
+			if(wakeup_press) wakeup_press = false;
 			//set_count++;			
 		}
 		up_pressed = true;
 		} else {
-			if (up_pressed) {
+			if (up_pressed && !wakeup_press) {
 				up_pressed = false;
 				
 				Serial.println("up button pressed");
@@ -150,15 +145,18 @@ bool button_encoder_read(lv_indev_drv_t *drv, lv_indev_data_t * data){
 			Serial.println("down button released");
 			//set_count--;
 			data->state = LV_INDEV_STATE_REL;
+			if(wakeup_press) wakeup_press = false;
 		}
 		down_pressed = true;
 	} else {
 		if (down_pressed) {
-			down_pressed = false;	
-			Serial.println("down button pressed");
-			data->btn_id = LV_KEY_LEFT;
-			data->key = LV_KEY_LEFT;
-			data->state = LV_INDEV_STATE_PR;
+			if (!wakeup_press){
+				Serial.println("down button pressed");
+				data->btn_id = LV_KEY_LEFT;
+				data->key = LV_KEY_LEFT;
+				data->state = LV_INDEV_STATE_PR;
+			}
+			down_pressed = false;
 		}
 	}
 	/*
@@ -185,7 +183,7 @@ void IRAM_ATTR button_irq( void ) {
     portEXIT_CRITICAL_ISR(&BTN_IRQ_Mux);
 	  if (!eventmgm_get_event(EVENTMGM_WAKEUP)) {
 		  eventmgm_set_event(EVENTMGM_WAKEUP_REQUEST);
-		  wakeup_press = 2;
+		  wakeup_press = true;
 	  }
 }
 

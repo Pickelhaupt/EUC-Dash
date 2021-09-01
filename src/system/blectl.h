@@ -316,12 +316,6 @@
      */
     void blectl_scan_setup(void);
     /**
-     * @brief get BLE connection status
-     * 
-     * @return true if connected to the whhel, false if disconnected
-     */
-    bool blectl_cli_getconnected( void );
-    /**
      * @brief scan for EUCs via BLE
      * 
      * @param scantime the time scanning is active (1-2sec is usually sufficient)

@@ -826,7 +826,7 @@ void dashboard_trip_update(float current_trip)
 void dashboard_overlay_update()
 {
     if (overlay_bar == NULL || overlay_label == NULL) return;
-    if (blectl_cli_getconnected())
+    if (blectl_get_event(BLECTL_CLI_CONNECTED))
     {
         lv_style_set_bg_opa(&overlay_style, LV_STATE_DEFAULT, LV_OPA_TRANSP);
         lv_obj_add_style(overlay_bar, LV_OBJ_PART_MAIN, &overlay_style);

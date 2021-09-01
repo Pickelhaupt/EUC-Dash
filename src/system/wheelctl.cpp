@@ -521,7 +521,7 @@ void wheelctl_toggle_lights(void)
     String wheeltype = wheelctl_info[WHEELCTL_INFO_MANUFACTURER].value;
     if (wheeltype == "KS")
     {
-        if (blectl_cli_getconnected()) {
+        if (blectl_get_event(BLECTL_CLI_CONNECTED)) {
             ks_lights(lightsoff);
             //if (wheelctl_config[WHEELCTL_CONFIG_LED].enable) ks_led(lightsoff);
         }

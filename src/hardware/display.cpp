@@ -52,6 +52,14 @@ void stopLvglTick()
     tickTicker->detach();
 }
 
+void display_load_config(void){
+    display_config.load();
+}
+
+void display_save_config(void){
+    display_config.save();
+}
+
 
 bool display_init() {
     bool init_success;
@@ -83,6 +91,9 @@ bool display_init() {
     disp_drv.flush_cb = my_disp_flush;
     disp_drv.buffer = &disp_buf;
     lv_disp_drv_register(&disp_drv);
+
+    display_load_config();
+    display_set_timeout(30);
 
     tickTicker = new Ticker();
     startLvglTick();
@@ -185,6 +196,11 @@ int display_auto_set_brightness(void) {
     return lghtlvl;
 }
 #endif
+
+void display_set_timeout(uint32_t value) {
+    display_config.timeout = value;
+    display_save_config();
+}
 
 uint32_t display_get_timeout( void ) {
     if (display_config.timeout < DISPLAY_MIN_TIMEOUT) display_config.timeout = DISPLAY_MIN_TIMEOUT;

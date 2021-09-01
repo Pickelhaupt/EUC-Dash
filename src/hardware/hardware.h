@@ -11,7 +11,6 @@
         #define HAS_DS1307
         //#define HAS_DS3231
         
-
         #define TFT_BL    4  // Dispaly backlight control pin
 
         #define SD_MISO     2
@@ -31,7 +30,7 @@
         #ifdef HAS_MOTOR
             #define MOTOR_PIN               4 //change to the pin controlling the motor
         #endif
-    #endif //T4_BOARD
+    #endif //TTGO_T4
 
     #ifdef OSW
         #define HAS_BUTTONS
@@ -43,7 +42,11 @@
         #define NO_PMU
 
         #define TFT_BL    9  // Dispaly backlight control pin
-
+        
+        #ifdef SPI_READ_FREQUENCY
+            #undef SPI_READ_FREQUENCY
+            #define SPI_READ_FREQUENCY 20000000
+        #endif
         #define RTC_INT 32
 
         #define BMA_INT_1 34

@@ -71,6 +71,7 @@
   void startLvglTick();
   void stopLvglTick();
 
+  void display_set_timeout(uint32_t value);
   uint32_t display_get_timeout( void );
   
 

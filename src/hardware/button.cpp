@@ -11,6 +11,7 @@ static EasyButton up_button(BUTTON_3);
 static EasyButton down_button(BUTTON_2);
 //static int previousCount = 0;
 //static int set_count = 0;
+byte wakeup_press = 0;
 
 volatile bool DRAM_ATTR button_irq_flag = false;
 portMUX_TYPE DRAM_ATTR BTN_IRQ_Mux = portMUX_INITIALIZER_UNLOCKED;
@@ -81,7 +82,7 @@ bool button_eventmgm_event_cb ( EventBits_t event, void *arg ) {
 }
 
 bool button_eventmgm_loop_cb ( EventBits_t event, void *arg ) {
-
+/*
 	portENTER_CRITICAL(&BTN_IRQ_Mux);
 	bool temp_button_irq_flag = button_irq_flag;
     button_irq_flag = false;
@@ -91,6 +92,7 @@ bool button_eventmgm_loop_cb ( EventBits_t event, void *arg ) {
 		log_i("btn_irq event loop");     
 		if (!eventmgm_get_event(EVENTMGM_WAKEUP)) eventmgm_set_event(EVENTMGM_WAKEUP_REQUEST);
     }
+	*/
 	return( true );
 }
 
@@ -100,6 +102,13 @@ bool button_encoder_read(lv_indev_drv_t *drv, lv_indev_data_t * data){
 	static bool up_pressed = false;
 	static bool down_pressed = false;
 	static int press_time = 0;
+
+	if(wakeup_press != 0) {
+		wakeup_press--;
+		if (wakeup_press < 0) wakeup_press = 0;
+		log_i("button press deferred due to wakeup request");
+		return 0;
+	}
 
 	if(encoder_button.read()){
 		if (!encoder_pressed) {
@@ -174,7 +183,10 @@ void IRAM_ATTR button_irq( void ) {
     button_irq_flag = true;
 	  log_i("button IRQ");
     portEXIT_CRITICAL_ISR(&BTN_IRQ_Mux);
-	  if (!eventmgm_get_event(EVENTMGM_WAKEUP)) eventmgm_set_event(EVENTMGM_WAKEUP_REQUEST);
+	  if (!eventmgm_get_event(EVENTMGM_WAKEUP)) {
+		  eventmgm_set_event(EVENTMGM_WAKEUP_REQUEST);
+		  wakeup_press = 2;
+	  }
 }
 
 void button_init(){

@@ -4,6 +4,11 @@
 
     #include "config.h"
     
+    #ifdef LV_TILEVIEW_DEF_ANIM_TIME
+        #undef LV_TILEVIEW_DEF_ANIM_TIME
+    #endif
+    #define LV_TILEVIEW_DEF_ANIM_TIME   150
+
     /**
      * @brief GUI setup
      */

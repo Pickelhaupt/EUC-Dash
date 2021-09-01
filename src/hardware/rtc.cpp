@@ -19,7 +19,7 @@ void rtc_init(){
     if (! rtc.begin()) {
         Serial.println("Couldn't find RTC");
     }
-    //rtc_set_time(2021, 8, 27, 10, 18, 0); //uncomment this to set time initially, then comment again and reupload
+    //rtc_set_time(2021, 8, 30, 16, 39, 0); //uncomment this to set time initially, then comment again and reupload
     #ifdef HAS_DS1307
     if (! rtc.isrunning()) {
         Serial.println("RTC is NOT running!");

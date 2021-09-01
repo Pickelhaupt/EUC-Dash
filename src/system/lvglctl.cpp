@@ -90,8 +90,8 @@ bool lvglctl_eventmgm_loop_event_cb( EventBits_t event, void *arg ) {
                                             lv_task_handler();
                                         }
                                         else {
-                                            //eventmgm_set_event( EVENTMGM_STANDBY_REQUEST );
-                                            lv_task_handler();
+                                            eventmgm_set_event( EVENTMGM_STANDBY_REQUEST );
+                                            //lv_task_handler();
                                         }
 
                                         break;
@@ -99,8 +99,8 @@ bool lvglctl_eventmgm_loop_event_cb( EventBits_t event, void *arg ) {
                                             lv_task_handler();
                                         }
                                         else {
-                                           // eventmgm_set_event( EVENTMGM_STANDBY_REQUEST );
-                                           lv_task_handler();
+                                           eventmgm_set_event( EVENTMGM_STANDBY_REQUEST );
+                                           //lv_task_handler();
                                         }
                                         break;
     }

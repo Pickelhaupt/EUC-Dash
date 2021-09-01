@@ -506,7 +506,7 @@ static void scanCompleteCB(BLEScanResults scanResults) {
             if(wheel_num <= (MAX_DETECTED_WHEELS)) detectNewWheels(scanResults.getDevice(i));
         }
         blectl_set_event(BLECTL_CLI_DETECT_DONE);
-        blectl_send_event_cb(BLECTL_CLI_DETECT_DONE, NULL);
+        //blectl_send_event_cb(BLECTL_CLI_DETECT_DONE, NULL);
         blectl_clear_event(BLECTL_CLI_DETECT); 
         newscan = true;
     } else {

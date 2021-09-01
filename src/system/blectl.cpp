@@ -2,7 +2,6 @@
  *   2020 Jesper Ortlund
  *   Snippets and inspiration from My-TTGO-Watch by Dirk Brosswick
  ****************************************************************************/
-
 /*
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,11 +18,6 @@
  *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
-/*
- *  
- *
- */
-
 #include <BLEDevice.h>
 //#include <BLEClient.h>
 //#include <BLEUtils.h>
@@ -37,8 +31,6 @@
 #include "wheelctl.h"
 #include "gui/dashboard/dashboard.h"
 #include "gui/gui.h"
-
-
 #include "Kingsong.h"
 
 EventGroupHandle_t blectl_status = NULL;
@@ -80,8 +72,7 @@ char zero_addr[18] = "00:00:00:00:00:00";
 
 static BLERemoteCharacteristic *pRemoteCharacteristic;
 static BLEAdvertisedDevice *myDevice;
-static uint64_t NextMillis = millis();
-
+int NextMillis = millis();
 
 class MyClientCallback : public BLEClientCallbacks
 {
@@ -104,7 +95,7 @@ class MyClientCallback : public BLEClientCallbacks
 };
 
 void blectl_reset_scandelay(void) {
-    NextMillis = millis() - 14000;
+    NextMillis = millis();
 }
 
 bool blectl_cli_eventmgm_event_cb(EventBits_t event, void *arg) {
@@ -554,10 +545,11 @@ void blectl_cli_loop(void){
         clidoConnect = false;
         blectl_clear_event(BLECTL_CLI_DOCONNECT);
     }
-    
-    if (millis() - NextMillis > scandelay){
-        NextMillis += scandelay;
+    //log_i("millisdiff: %d", NextMillis - millis());
+    if (millis() > NextMillis){
+        NextMillis = millis() + scandelay;
         if (blectl_config.autoconnect) {
+            log_i("enabling BLE scan millisdiff: %d", NextMillis - millis() - scandelay);
             blectl_set_event(BLECTL_CLI_DOSCAN);
         }
     }
@@ -565,13 +557,12 @@ void blectl_cli_loop(void){
         wheel_num = 0;
         if (blectl_get_event(BLECTL_CLI_DETECT)) {
             Serial.println("detecting new wheels..");
-            
             if (newscan) blectl_clear_detected_wheels();
         } else {
             Serial.println("scanning for stored wheels");
         }
-        blectl_scan_once(1);
-        blectl_clear_event(BLECTL_CLI_DOSCAN); 
+        blectl_clear_event(BLECTL_CLI_DOSCAN);
+        blectl_scan_once(1);     
     }
 }
 
@@ -796,12 +787,13 @@ void blectl_scan_setup()
     blectl_read_stored_wheels();
     blectl_status = xEventGroupCreate();
     BLEDevice::init("esp32-ble");
-    blectl_set_txpower( blectl_config.txpower );
+    //blectl_set_txpower( blectl_config.txpower );
+    blectl_set_txpower( ESP_PWR_LVL_N6 ); //temp, set to -6dbm
 
     pBLEScan = BLEDevice::getScan();
     blectl_clear_detected_wheels();
-    //blectl_reset_scandelay();
     blectl_set_event(BLECTL_CLI_DETECT);
+    //blectl_reset_scandelay();
     //blectl_remove_all_wheels();
     eventmgm_register_cb(EVENTMGM_SILENCE_WAKEUP | EVENTMGM_STANDBY | EVENTMGM_WAKEUP | EVENTMGM_WAKEUP_REQUEST | EVENTMGM_STANDBY_REQUEST | EVENTMGM_SILENCE_WAKEUP_REQUEST, blectl_cli_eventmgm_event_cb, "blectl_cli");
     eventmgm_register_loop_cb(EVENTMGM_SILENCE_WAKEUP | EVENTMGM_STANDBY | EVENTMGM_WAKEUP, blectl_cli_eventmgm_loop_cb, "blectl_cli loop");

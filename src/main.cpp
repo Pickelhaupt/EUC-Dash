@@ -6,8 +6,6 @@
 #include "hardware/i2c_bus.h"
 #include "hardware/button.h"
 #include "hardware/rtc.h"
-#include "hardware/power.h"
-#include "system/configuration.h"
 #include "system/eventmgm.h"
 #include "system/lvglctl.h"
 #include "system/blectl.h"
@@ -32,26 +30,17 @@ void setup() {
         Serial.println("An Error has occurred while mounting SPIFFS");  
     }
     
-    eventmgm_init();
-    
-    //configuration_init();
-
-    
+    eventmgm_init(); 
     wheeldb_setup();
     wheelctl_setup();
-
     display_init();
-
     #ifdef HAS_RTC
         rtc_init();
     #endif
-    
     #ifdef HAS_BUTTONS
         button_init();
     #endif
-
     lvglctl_init();
-
     blectl_scan_setup();
 
     if (I2C_SDA > 0) {

@@ -108,6 +108,7 @@ bool blectl_cli_eventmgm_event_cb(EventBits_t event, void *arg) {
             log_i("standby blocked by wheel being connected");
         }
         else log_i("go standby");
+        
         break;
     case EVENTMGM_WAKEUP:
         blectl_reset_scandelay();
@@ -545,7 +546,6 @@ void blectl_cli_loop(void){
         clidoConnect = false;
         blectl_clear_event(BLECTL_CLI_DOCONNECT);
     }
-    //log_i("millisdiff: %d", NextMillis - millis());
     if (millis() > NextMillis){
         NextMillis = millis() + scandelay;
         if (blectl_config.autoconnect) {
@@ -793,7 +793,6 @@ void blectl_scan_setup()
     pBLEScan = BLEDevice::getScan();
     blectl_clear_detected_wheels();
     blectl_set_event(BLECTL_CLI_DETECT);
-    //blectl_reset_scandelay();
     //blectl_remove_all_wheels();
     eventmgm_register_cb(EVENTMGM_SILENCE_WAKEUP | EVENTMGM_STANDBY | EVENTMGM_WAKEUP | EVENTMGM_WAKEUP_REQUEST | EVENTMGM_STANDBY_REQUEST | EVENTMGM_SILENCE_WAKEUP_REQUEST, blectl_cli_eventmgm_event_cb, "blectl_cli");
     eventmgm_register_loop_cb(EVENTMGM_SILENCE_WAKEUP | EVENTMGM_STANDBY | EVENTMGM_WAKEUP, blectl_cli_eventmgm_loop_cb, "blectl_cli loop");

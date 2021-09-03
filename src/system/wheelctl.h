@@ -86,6 +86,7 @@
         WHEELCTL_CONST_BATTCRIT,     
         WHEELCTL_CONST_BATT_IR,     //battery pack internal resistance
         WHEELCTL_CONST_BATT_P,     //number of battery cells in parallel
+        WHEELCTL_CONST_BATT_S,     //number of battery cells in parallel
         WHEELCTL_CONST_NUM          //number of wheel constants
     };
 

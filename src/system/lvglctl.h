@@ -19,5 +19,13 @@
      * @param force  true for redraw
      */
     void lvglctl_force_redraw( bool force );
+    /**
+     * @brief attach lvgl ticker
+     */
+    void startLvglTick(void);
+    /**
+     * @brief detach lvgl ticker
+     */
+    void stopLvglTick(void);
 
 #endif // _STATUSBAR_H

@@ -1,8 +1,5 @@
 #include "power.h"
 
-
-
-
 void power_init(void) {
 
     #ifdef HAS_AXP202
@@ -84,6 +81,7 @@ uint8_t power_get_battpct(void){
         value = 100 - ((max_volt - knee1) * 100) - ((knee1 - knee2) * 190) - ((knee2 - knee3) * 130) - ((knee3 - voltage) * 40);
     }
     else value = 0;
+    value = power_batt_analog_read();
     log_i("battery percent = %d", value);
     return value;
 }

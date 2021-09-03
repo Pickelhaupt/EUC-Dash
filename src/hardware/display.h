@@ -4,7 +4,6 @@
   #include "hardware/hardware.h"
   #include "config/displayconfig.h"
 
-  
   #ifdef HAS_AMBLS //if the board has an ambient light sensor
     #define LIGHTSENSE_PIN      35  //
     #define DISPLAY_GAIN        15  //increase to make the display start getting brighter at a lower light level
@@ -68,8 +67,8 @@
   int display_auto_set_brightness(void);
   /** @brief set display rotation @param rotation  DISPLAY_ROT_0,  DISPLAY_ROT_90, DISPLAY_ROT_180 or DISPLAY_ROT_270,*/
   void display_set_rotation(int rotation);
-  void startLvglTick();
-  void stopLvglTick();
+  //void startLvglTick();
+  //void stopLvglTick();
 
   void display_set_timeout(uint32_t value);
   uint32_t display_get_timeout( void );

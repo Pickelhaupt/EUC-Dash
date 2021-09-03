@@ -9,7 +9,7 @@
 
 display_config_t display_config;
 byte display_brightness;
-Ticker *tickTicker = nullptr;
+//Ticker *tickTicker = nullptr;
 
 TFT_eSPI disp_tft = TFT_eSPI(); // Invoke library
 
@@ -38,6 +38,7 @@ void my_disp_flush(lv_disp_drv_t *disp, const lv_area_t *area, lv_color_t *color
     lv_disp_flush_ready(disp);
 }
 
+/*
 void startLvglTick()
 {
     Serial.println("starting lvgl tick");
@@ -50,7 +51,7 @@ void stopLvglTick()
 {  
     Serial.println("stopping lvgl tick");
     tickTicker->detach();
-}
+}*/
 
 void display_load_config(void){
     display_config.load();
@@ -95,8 +96,8 @@ bool display_init() {
     display_load_config();
     display_set_timeout(30);
 
-    tickTicker = new Ticker();
-    startLvglTick();
+    //tickTicker = new Ticker();
+    //startLvglTick();
 
     eventmgm_register_cb( EVENTMGM_STANDBY | EVENTMGM_WAKEUP | EVENTMGM_SILENCE_WAKEUP, display_eventmgm_event_cb, "display events" );
 

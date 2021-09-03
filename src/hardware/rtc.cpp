@@ -19,7 +19,7 @@ void rtc_init(){
     if (! rtc.begin()) {
         Serial.println("Couldn't find RTC");
     }
-    //rtc_set_time(2021, 9, 1, 23, 31, 0); //uncomment this to set time initially, then comment again and reupload
+    //rtc_set_time(2021, 9, 2, 9, 37, 0); //uncomment this to set time initially, then comment again and reupload
     #ifdef HAS_DS1307
     if (! rtc.isrunning()) {
         Serial.println("RTC is NOT running!");
@@ -36,7 +36,6 @@ time_t rtc_get_time(){
     time_t time = now.unixtime();
     return time;
 }
-
 
 //example function to get time in HH:MM format
 char* rtc_get_clockstring(){

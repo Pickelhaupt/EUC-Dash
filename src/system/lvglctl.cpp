@@ -13,15 +13,24 @@
 
 #include "system/eventmgm.h"
 #include "hardware/display.h"
-//#include "hardware/motor.h"
-//#include "hardware/touch.h"
+#ifdef HAS_MOTOR
+#include "hardware/motor.h"
+#endif
+#ifdef HAS_TOUCH
+#include "hardware/touch.h"
+#endif
 
 static volatile bool force_redraw = false;
+
+Ticker *tickTicker = nullptr;
 
 bool lvglctl_eventmgm_event_cb( EventBits_t event, void *arg );
 bool lvglctl_eventmgm_loop_event_cb( EventBits_t event, void *arg );
 
 void lvglctl_init( void ) {
+
+    tickTicker = new Ticker();
+    startLvglTick();
  
     gui_init();
     mainscreen_init();
@@ -78,11 +87,23 @@ bool lvglctl_eventmgm_event_cb( EventBits_t event, void *arg ) {
     return( true );
 }
 
-
 void lvglctl_force_redraw( bool force ) {
     force_redraw = force;
 }
 
+void startLvglTick()
+{
+    Serial.println("starting lvgl tick");
+    tickTicker->attach_ms(5, []() {
+        lv_tick_inc(5);
+    });
+}
+
+void stopLvglTick()
+{  
+    Serial.println("stopping lvgl tick");
+    tickTicker->detach();
+}
 
 bool lvglctl_eventmgm_loop_event_cb( EventBits_t event, void *arg ) {
     switch ( event ) {
@@ -91,7 +112,6 @@ bool lvglctl_eventmgm_loop_event_cb( EventBits_t event, void *arg ) {
                                         }
                                         else {
                                             eventmgm_set_event( EVENTMGM_STANDBY_REQUEST );
-                                            //lv_task_handler();
                                         }
 
                                         break;
@@ -100,14 +120,12 @@ bool lvglctl_eventmgm_loop_event_cb( EventBits_t event, void *arg ) {
                                         }
                                         else {
                                            eventmgm_set_event( EVENTMGM_STANDBY_REQUEST );
-                                           //lv_task_handler();
                                         }
                                         break;
     }
     if ( force_redraw ) {
         force_redraw = !force_redraw;
         lv_obj_invalidate( lv_scr_act() );
-        // lv_refr_now( NULL );
     }
     return( true );
 }

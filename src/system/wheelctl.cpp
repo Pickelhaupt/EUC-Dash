@@ -30,7 +30,6 @@
 #include "alloc.h"
 #include "Kingsong.h"
 #include "eventmgm.h"
-//#include "gui/mainbar/setup_tile/setup_tile.h"
 #include "gui/dashboard/dashboard.h"
 
 #define BATT_AVG_ENTRIES 10
@@ -61,7 +60,6 @@ void wheelctl_update_watch_trip(float value);
 void wheelctl_read_config( void );
 void wheelctl_save_tripdata(void);
 void wheelctl_read_tripdata(void);
-
 
 bool shakeoff[3] = {true, true, true};
 bool lightsoff = true;
@@ -119,15 +117,10 @@ void wheelctl_connect_actions(void)
     }
     sync_trip = true;
     sync_millis = true;
-    //ride_tick = lv_task_create( wheelctl_tick_update, 1000, LV_TASK_PRIO_LOW, NULL );
-    //save_trip_task = lv_task_create( wheelctl_save_trip_task, 20000, LV_TASK_PRIO_LOW, NULL );
-    //setup_tile_connect_update(wheelctl_get_info(WHEELCTL_INFO_MODEL));
 }
 
 void wheelctl_disconnect_actions(){
-    //if (ride_tick != nullptr) lv_task_del(ride_tick);
-    //if (save_trip_task != nullptr) lv_task_del(save_trip_task);
-    //setup_tile_connect_update("disconnected");
+    //add actions if required
 }
 
 void wheelctl_update_values(void)
@@ -325,58 +318,59 @@ void update_calc_battery(float value)
     float voltagesag = wheelctl_constants[WHEELCTL_CONST_BATT_IR].value * wheelctl_data[WHEELCTL_CURRENT].value;
 
     /*
-    static int centivolt_array[BATT_AVG_ENTRIES] = {0};
+    static int volt_x_100_array[BATT_AVG_ENTRIES] = {0};
     static int i = 0;
     int sum = 0;
     int num = 0;
     if (i < BATT_AVG_ENTRIES) i++; else i = 0;
 
-    centivolt_array[i] = (value * 100) + voltagesag; //compensate for battery pack internal resitance
+    volt_x_100_array[i] = (value * 100) + voltagesag; //compensate for battery pack internal resitance
     for (int j = 0; j < BATT_AVG_ENTRIES; j++)
     {
-        if (centivolt_array[j] > 0)
+        if (volt_x_100_array[j] > 0)
         {
-            sum += centivolt_array[j];
+            sum += volt_x_100_array[j];
             num++;
         }
     }
-    int centivolt = sum / num;
+    int volt_x_100 = sum / num;
     */
 
-    int centivolt = (value * 100) + voltagesag;
+    int volt_x_100 = (value * 100) + voltagesag;
+    int cellvolt_x_100 = volt_x_100 / wheelctl_constants[WHEELCTL_CONST_BATT_S].value;
 
     if (wheelctl_constants[WHEELCTL_CONST_BATTVOLT].value < 70)
     {
-        if (centivolt > 6680)
+        if (volt_x_100 > 6680)
             wheelctl_set_data(WHEELCTL_BATTPCT, 100.0);
-        else if (centivolt > 5440)
-            wheelctl_set_data(WHEELCTL_BATTPCT, (centivolt - 5320) / 13.6);
-        else if (centivolt > 5120)
-            wheelctl_set_data(WHEELCTL_BATTPCT, (centivolt - 5120) / 36.0);
+        else if (volt_x_100 > 5440)
+            wheelctl_set_data(WHEELCTL_BATTPCT, (volt_x_100 - 5320) / 13.6);
+        else if (volt_x_100 > 5120)
+            wheelctl_set_data(WHEELCTL_BATTPCT, (volt_x_100 - 5120) / 36.0);
         else
             wheelctl_set_data(WHEELCTL_BATTPCT, 0.0);
         return;
     }
     else if (wheelctl_constants[WHEELCTL_CONST_BATTVOLT].value < 86)
     {
-        if (centivolt > 8350)
+        if (volt_x_100 > 8350)
             wheelctl_set_data(WHEELCTL_BATTPCT, 100.0);
-        else if (centivolt > 6800)
-            wheelctl_set_data(WHEELCTL_BATTPCT, (centivolt - 6650) / 17);
-        else if (centivolt > 6400)
-            wheelctl_set_data(WHEELCTL_BATTPCT, (centivolt - 6400) / 45);
+        else if (volt_x_100 > 6800)
+            wheelctl_set_data(WHEELCTL_BATTPCT, (volt_x_100 - 6650) / 17);
+        else if (volt_x_100 > 6400)
+            wheelctl_set_data(WHEELCTL_BATTPCT, (volt_x_100 - 6400) / 45);
         else
             wheelctl_set_data(WHEELCTL_BATTPCT, 0.0);
         return;
     }
     else if (wheelctl_constants[WHEELCTL_CONST_BATTVOLT].value < 105)
     {
-        if (centivolt > 10020)
+        if (volt_x_100 > 10020)
             wheelctl_set_data(WHEELCTL_BATTPCT, 100.0);
-        else if (centivolt > 8160)
-            wheelctl_set_data(WHEELCTL_BATTPCT, (centivolt - 8070) / 19.5);
-        else if (centivolt > 7660)
-            wheelctl_set_data(WHEELCTL_BATTPCT, (centivolt - 7935) / 48.75);
+        else if (volt_x_100 > 8160)
+            wheelctl_set_data(WHEELCTL_BATTPCT, (volt_x_100 - 8070) / 19.5);
+        else if (volt_x_100 > 7660)
+            wheelctl_set_data(WHEELCTL_BATTPCT, (volt_x_100 - 7935) / 48.75);
         else
             wheelctl_set_data(WHEELCTL_BATTPCT, 0.0);
         return;
@@ -549,7 +543,6 @@ void wheelctl_toggle_lights(void)
     }
 }
 
-
 void wheelctl_save_config( void ) {
     wheelctlconfig.save();
 }
@@ -557,7 +550,6 @@ void wheelctl_save_config( void ) {
 void wheelctl_read_config( void ) {
     wheelctlconfig.load();
 }
-
 
 void wheelctl_save_tripdata(void) {
     current_tripdata.save();

@@ -69,6 +69,8 @@ void wheeldb_set_wheelctl_data(byte wheel_type) {
     wheelctl_set_constant(WHEELCTL_CONST_BATTVOLT, (wheeldata[wheel_type].numcellsS * 4.2));
     wheelctl_set_constant(WHEELCTL_CONST_BATTWARN, wheeldata[wheel_type].battwarn);
     wheelctl_set_constant(WHEELCTL_CONST_BATT_IR, (celldata[wheeldata[wheel_type].celltype].resistance * wheeldata[wheel_type].numcellsS / (10 * wheeldata[wheel_type].numcellsP)));
+    wheelctl_set_constant(WHEELCTL_CONST_BATT_P, wheeldata[wheel_type].numcellsP);
+    wheelctl_set_constant(WHEELCTL_CONST_BATT_S, wheeldata[wheel_type].numcellsS);
 }
 
 void wheeldb_setup(void){
